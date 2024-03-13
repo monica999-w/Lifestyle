@@ -25,6 +25,14 @@ namespace Lifestyle.Models
             Exercises.Add(exercise);
         }
 
+        // Method with optional parameters and named arguments
+        //overloading
+        public void AddExercise(string name = "Exercise", int durationInMinutes = 30)
+        {
+            Console.WriteLine($"Adding exercise: {name}, Duration: {durationInMinutes} minutes");
+
+        }
+
         public void RemoveExercise(Exercise.Exercise exercise)
         {
             Exercises.Remove(exercise);

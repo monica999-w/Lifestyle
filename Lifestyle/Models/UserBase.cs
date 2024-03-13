@@ -1,4 +1,5 @@
-﻿using Lifestyle.Interface;
+﻿using Lifestyle.Exercise;
+using Lifestyle.Interface;
 using Lifestyle.Models;
 using System;
 using System.Collections;
@@ -32,11 +33,17 @@ namespace Lifestyle.Class
             Weight = weight;
         }
 
+
+        //ICloneable
         public UserBase Clone()
         {
             return new UserProfile(Username, Password, Email, Height, Weight);
           
         }
+
+      
+
+
     }
 
 }
