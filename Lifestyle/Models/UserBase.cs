@@ -1,13 +1,16 @@
-﻿using System;
+﻿using Lifestyle.Interface;
+using Lifestyle.Models;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Lifestyle.Class
 {
-    public abstract class UserBase
+    public abstract class UserBase: ICloneable<UserBase>
     {
 
 
@@ -27,6 +30,12 @@ namespace Lifestyle.Class
             Email = email;
             Height = height;
             Weight = weight;
+        }
+
+        public UserBase Clone()
+        {
+            return new UserProfile(Username, Password, Email, Height, Weight);
+          
         }
     }
 
