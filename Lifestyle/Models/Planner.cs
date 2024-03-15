@@ -22,8 +22,15 @@ namespace Lifestyle.Models
             mealRepository = new MealRepository();
         }
 
+
+        // throws exceptions​
         public void AddExercise(Exercise.Exercise exercise)
         {
+            if( exercise == null)
+            {
+                throw new ArgumentNullException(nameof(exercise),"Exercise cannot be null."); 
+            }
+
             exerciseRepository.Add(exercise);
         }
 
@@ -42,6 +49,7 @@ namespace Lifestyle.Models
 
         public void AddMeal(string mealName, Meal.Meal meal)
         {
+           
             mealRepository.Add(mealName, meal);
         }
 
