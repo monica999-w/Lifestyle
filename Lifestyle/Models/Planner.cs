@@ -26,9 +26,9 @@ namespace Lifestyle.Models
         // throws exceptions​
         public void AddExercise(Exercise.Exercise exercise)
         {
-            if( exercise == null)
+            if (exercise == null)
             {
-                throw new ArgumentNullException(nameof(exercise),"Exercise cannot be null."); 
+                throw new InvalidExerciseException("Exercise cannot be null.");
             }
 
             exerciseRepository.Add(exercise);
