@@ -41,8 +41,6 @@ namespace Lifestyle.Class
           
         }
 
-      
-
 
     }
 

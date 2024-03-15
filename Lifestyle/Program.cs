@@ -3,7 +3,7 @@ using Lifestyle.Class;
 using Lifestyle.Exercise;
 using Lifestyle.Meal;
 using Lifestyle.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Numerics;
 
 class Program
 {
@@ -12,17 +12,10 @@ class Program
         //user
         UserProfile profile1 = new UserProfile("user1", "password", "user.test@example.com", 180, 80);
 
-        //  add exercise
-        if (profile1.Planner is Planner)
-        {
-            Planner planner = profile1.Planner as Planner;
-            if (planner != null)
-            {
-                planner.AddExercise(new CardioExercise("Alerare", 30));
-            }
-        }
+        // Add an exercise to the planner
+        profile1.Planner.AddExercise(new CardioExercise("Running", 30));
 
-        // add meal
+        // Add a meal to the planner
         Nutrients breakfastNutrients = new Nutrients
         {
             Calories = 300,
@@ -31,48 +24,27 @@ class Program
             Carbohydrates = 40
         };
         Meal breakfast = new Meal("Eggs Benedict", breakfastNutrients);
+        profile1.Planner.AddMeal("breakfast", breakfast);
 
-        if (profile1.Planner is Planner)
+        // exercises 
+        Console.WriteLine($"Exercises for user {profile1.Username}:");
+        foreach (var exercise in profile1.Planner)
         {
-            Planner planner = profile1.Planner as Planner;
-            if (planner != null)
+            if (exercise is Exercise)
             {
-                planner.AddMeal("breakfast", breakfast);
+                Console.WriteLine($"- {((Exercise)exercise).Name}, Duration: {((Exercise)exercise).DurationInMinutes} minutes");
             }
         }
 
-        
-        if (profile1.Planner is Planner)
+        //  meals 
+        Console.WriteLine($"Meals for user {profile1.Username}:");
+        foreach (var meal in profile1.Planner)
         {
-            Planner planner = profile1.Planner as Planner;
-            if (planner != null)
+            if (meal is Meal)
             {
-                foreach (var exercise in planner.Exercises)
-                {
-                    Console.WriteLine($"User {profile1.Username} will do {exercise.Name} for {exercise.DurationInMinutes} minutes");
-                }
-            }
-        }
-
-        
-        if (profile1.Planner is Planner)
-        {
-            Planner planner = profile1.Planner as Planner;
-            if (planner != null)
-            {
-                foreach (var mealsPair in planner.MealsPerDay)
-                {
-                    Console.WriteLine($"Meal: {mealsPair.Key}");
-                    foreach (var meal in mealsPair.Value)
-                    {
-                        Console.WriteLine($"{meal.Name}:");
-                        Console.WriteLine($"Calories: {meal.Nutrients.Calories} kcal");
-                        Console.WriteLine($"Protein: {meal.Nutrients.Protein}g");
-                        Console.WriteLine($"Fat: {meal.Nutrients.Fat}g");
-                        Console.WriteLine($"Carbohydrates: {meal.Nutrients.Carbohydrates}g");
-                    }
-                }
+                Console.WriteLine($"- {((Meal)meal).Name}, Calories: {((Meal)meal).Nutrients.Calories} kcal");
             }
         }
     }
 }
+

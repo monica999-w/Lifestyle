@@ -5,24 +5,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lifestyle.Exercise;
+using Lifestyle.Interface;
+using Lifestyle.Meal;
 
 namespace Lifestyle.Models
 {
-    public class Planner : IEnumerable<Exercise.Exercise>
+    public class Planner : IEnumerable<object> 
     {
-
-        public List<Exercise.Exercise> Exercises { get; set; }
-        public Dictionary<string,List<Meal.Meal>> MealsPerDay { get; set; }
+        private IRepository<Exercise.Exercise> exerciseRepository;
+        private IMealRepository<Meal.Meal> mealRepository;
+      
 
         public Planner()
         {
-            Exercises = new List<Exercise.Exercise>();
-            MealsPerDay = new Dictionary<string,List < Meal.Meal >> ();
+            exerciseRepository = new ExerciseRepository();
+            mealRepository = new MealRepository();
         }
 
         public void AddExercise(Exercise.Exercise exercise)
         {
-            Exercises.Add(exercise);
+            exerciseRepository.Add(exercise);
         }
 
         // Method with optional parameters and named arguments
@@ -35,24 +37,34 @@ namespace Lifestyle.Models
 
         public void RemoveExercise(Exercise.Exercise exercise)
         {
-            Exercises.Remove(exercise);
+            exerciseRepository.Remove(exercise);
         }
 
         public void AddMeal(string mealName, Meal.Meal meal)
         {
-            if (!MealsPerDay.ContainsKey(mealName))
-            {
-                MealsPerDay[mealName] = new List<Meal.Meal>();
-            }
-            MealsPerDay[mealName].Add(meal);
+            mealRepository.Add(mealName, meal);
         }
 
-        
-
-
-        public IEnumerator<Exercise.Exercise> GetEnumerator()
+        public void RemoveExercise(string mealName, Meal.Meal meal)
         {
-            return Exercises.GetEnumerator();
+            mealRepository.Remove(mealName, meal);
+        }
+
+
+        public IEnumerator<object> GetEnumerator()
+        {
+            foreach (var exercise in exerciseRepository.GetAll())
+            {
+                yield return exercise;
+            }
+
+            foreach (var mealName in mealRepository.GetAllMealNames())
+            {
+                foreach (var meal in mealRepository.GetAll(mealName))
+                {
+                    yield return meal;
+                }
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
