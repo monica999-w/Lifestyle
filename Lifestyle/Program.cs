@@ -15,6 +15,8 @@ class Program
         // Add an exercise to the planner
         profile1.Planner.AddExercise(new CardioExercise("Running", 30));
 
+       // profile1.Planner.AddExercise(null);
+
         // Add a meal to the planner
         Nutrients breakfastNutrients = new Nutrients
         {

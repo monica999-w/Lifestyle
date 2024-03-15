@@ -26,12 +26,32 @@ namespace Lifestyle.Models
         // throws exceptions​
         public void AddExercise(Exercise.Exercise exercise)
         {
-            if (exercise == null)
-            {
-                throw new InvalidExerciseException("Exercise cannot be null.");
-            }
 
-            exerciseRepository.Add(exercise);
+            try
+            {
+                if (exercise == null)
+                {
+                    throw new ArgumentNullException("Exercise cannot be null.");
+                }
+
+                exerciseRepository.Add(exercise);
+                Console.WriteLine("Exercise added successfully.");
+            }
+            catch (ArgumentNullException ex)
+            {
+                Console.WriteLine($"ArgumentNullException: {ex.Message}");
+                // Handle ArgumentNullException
+            }
+            catch (InvalidExerciseException ex)
+            {
+                Console.WriteLine($"InvalidExerciseException: {ex.Message}");
+                // Handle InvalidExerciseException
+            }
+            finally
+            {
+                // Clean up code (if any)
+                Console.WriteLine("AddExercise method execution completed.");
+            }
         }
 
         // Method with optional parameters and named arguments
