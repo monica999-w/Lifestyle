@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lifestyle.Interface
+namespace Lifestyle.Enums
 {
-    public interface ICloneable<T>
+    public enum MealType
     {
-        T Clone();
+        Breakfast,
+        Lunch,
+        Dinner,
     }
 }

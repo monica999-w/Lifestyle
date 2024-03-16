@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+#define DEBUG
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +9,12 @@ using Lifestyle.Exercise;
 using Lifestyle.Interface;
 using Lifestyle.Meal;
 
+
 namespace Lifestyle.Models
 {
     public class Planner : IEnumerable<object> 
     {
-        private IRepository<Exercise.Exercise> exerciseRepository;
+        private IExerciseRepository<Exercise.Exercise> exerciseRepository;
         private IMealRepository<Meal.Meal> mealRepository;
       
 
@@ -26,7 +28,9 @@ namespace Lifestyle.Models
         // throws exceptions​
         public void AddExercise(Exercise.Exercise exercise)
         {
-
+#if DEBUG
+            Console.WriteLine("Debug mode is enabled.");
+#endif
             try
             {
                 if (exercise == null)
@@ -39,8 +43,11 @@ namespace Lifestyle.Models
             }
             catch (ArgumentNullException ex)
             {
-                Console.WriteLine($"ArgumentNullException: {ex.Message}");
-                // Handle ArgumentNullException
+                // Log the exception
+                Console.WriteLine($"ArgumentNullException caught: {ex.Message}");
+                
+                // Rethrow the exception
+                throw;
             }
             catch (InvalidExerciseException ex)
             {

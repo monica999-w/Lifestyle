@@ -9,9 +9,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
+
 namespace Lifestyle.Class
 {
-    public abstract class UserBase: ICloneable<UserBase>
+    public abstract class UserBase: ICloneable
     {
 
 
@@ -35,13 +36,10 @@ namespace Lifestyle.Class
 
 
         //ICloneable
-        public UserBase Clone()
+        object ICloneable.Clone()
         {
             return new UserProfile(Username, Password, Email, Height, Weight);
-          
         }
-
-
     }
 
 }
