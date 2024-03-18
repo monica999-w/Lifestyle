@@ -9,34 +9,36 @@ namespace Lifestyle.Exercise
 {
     public class ExerciseRepository : IExerciseRepository<Exercise>
     {
-        private List<Exercise> exercises;
+       
+            private List<Exercise> exercises;
 
-        public ExerciseRepository()
-        {
-            exercises = new List<Exercise>();
-        }
+            public ExerciseRepository()
+            {
+                exercises = new List<Exercise>();
+            }
 
-        public void Add(Exercise entity)
-        {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
+            public void Add(Exercise entity)
+            {
+                if (entity == null)
+                    throw new ArgumentNullException(nameof(entity));
 
-            exercises.Add(entity);
-        }
+                exercises.Add(entity);
+            }
 
-        public void Remove(Exercise entity)
-        {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
+            public void Remove(Exercise entity)
+            {
+                if (entity == null)
+                    throw new ArgumentNullException(nameof(entity));
 
-            exercises.Remove(entity);
-        }
+                exercises.Remove(entity);
+            }
 
-        public IEnumerable<Exercise> GetAll()
-        {
-            return exercises;
+            public IEnumerable<Exercise> GetAll()
+            {
+                return exercises;
+            }
+
         }
 
     }
 
-}

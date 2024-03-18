@@ -16,7 +16,7 @@ namespace Lifestyle.Meal
         {
             mealsPerDay = new Dictionary<string, List<Meal>>();
         }
-     
+
         public void Add(string mealName, Meal meal)
         {
             if (meal == null)
