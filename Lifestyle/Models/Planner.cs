@@ -134,32 +134,13 @@ namespace Lifestyle.Models
             operation(meals);
         }
 
-
-        public IEnumerable<string> GetMealNamesWithCaloriesGreaterThan(int calories)
+     
+        //select
+        public IEnumerable<object> GetExerciseInfo(List<Exercise.Exercise> exercises)
         {
-            //  Where pentru a filtra mesele
-            return mealRepository.GetAllMealNames().Where(mealName =>
-            {
-                return mealRepository.GetAll(mealName).Any(meal => meal.Nutrients.Calories > calories);
-            });
-        }
-
-
-        public IEnumerator<object> GetEnumerator()
-            {
-                foreach (var exercise in exerciseRepository.GetAll())
-                {
-                    yield return exercise;
-                }
-
-                foreach (var mealName in mealRepository.GetAllMealNames())
-                {
-                    foreach (var meal in mealRepository.GetAll(mealName))
-                    {
-                        yield return meal;
-                    }
-                }
-        }
+            var exerciseInfoList = exercises.Select(e => new { Name = e.Name, DurationInMinutes = e.DurationInMinutes });
+            return exerciseInfoList;
+        } 
 
         //join
         public void JoinUsersAndExercises(List<UserProfile> users, List<Exercise.Exercise> exercises)
@@ -244,22 +225,16 @@ namespace Lifestyle.Models
         }
 
 
-        public List<Exercise.Exercise> CombineExerciseLists(List<Exercise.Exercise> list1, List<Exercise.Exercise> list2)
-        {
-            var combinedList = list1.Union(list2).ToList();
-            return combinedList;
-        }
 
-
-
+        //where
         public IEnumerable<Exercise.Exercise> GetExercisesEnumerable(List<Exercise.Exercise> exercises)
         {
-            // Realizăm o operație LINQ pentru a filtra sau proiecta lista de exerciții, apoi returnăm rezultatul ca un obiect IEnumerable<Exercise>
-            var filteredExercises = exercises.Where(e => e.DurationInMinutes > 30).AsEnumerable();
+            var filteredExercises = exercises.Where(e => e.DurationInMinutes > 30);
 
             return filteredExercises;
         }
 
+        //sum
         public int CalculateTotalDuration(List<Exercise.Exercise> exercises)
         {
             int totalDuration = exercises.Sum(e => e.DurationInMinutes);
@@ -301,6 +276,22 @@ namespace Lifestyle.Models
         public IEnumerable<Exercise.Exercise> GenerateRepeatedExercises(Exercise.Exercise exercise, int count)
         {
             return Enumerable.Repeat(exercise, count);
+        }
+
+        public IEnumerator<object> GetEnumerator()
+        {
+            foreach (var exercise in exerciseRepository.GetAll())
+            {
+                yield return exercise;
+            }
+
+            foreach (var mealName in mealRepository.GetAllMealNames())
+            {
+                foreach (var meal in mealRepository.GetAll(mealName))
+                {
+                    yield return meal;
+                }
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()

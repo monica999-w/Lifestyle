@@ -6,6 +6,7 @@ using Lifestyle.Exercise;
 using Lifestyle.Interface;
 using Lifestyle.Meal;
 using Lifestyle.Models;
+using System.Net.Mail;
 using System.Numerics;
 using System.Runtime.Intrinsics.X86;
 
@@ -17,16 +18,20 @@ class Program
              Planner planner = new Planner();
              
             //user
-            UserProfile profile1 = new UserProfile("user1", "password", "user.test@example.com", 180, 80);
+            UserProfile profile1 = new UserProfile("user1", "password", "monica.adina112@gmail.com", 180, 80);
+            UserProfile profile2 = new UserProfile("user2", "password", "iliescu.monica99@yahoo.com", 100, 60);
+            UserProfile profile3 = new UserProfile("user3", "password", "monica.adina112@gmail.com", 90, 50);
 
-            // Add an exercise to the planner
-          //  profile1.Planner.AddExercise(new CardioExercise(1,"Running", 30,ExerciseType.Cardio,profile1));
-          //  profile1.Planner.AddExercise(new CardioExercise(2,"Add", 130,ExerciseType.Yoga,profile1));
 
-            // profile1.Planner.AddExercise(null);
 
-            // Add a meal to the planner
-            Nutrients breakfastNutrients = new Nutrients
+        // Add an exercise to the planner
+        //  profile1.Planner.AddExercise(new CardioExercise(1,"Running", 30,ExerciseType.Cardio,profile1));
+        //  profile1.Planner.AddExercise(new CardioExercise(2,"Add", 130,ExerciseType.Yoga,profile1));
+
+        // profile1.Planner.AddExercise(null);
+
+        // Add a meal to the planner
+        Nutrients breakfastNutrients = new Nutrients
             {
                 Calories = 300,
                 Protein = 20,
@@ -64,12 +69,14 @@ class Program
         //extension methods
         profile1.Planner.ApplyOperationOnMeals("breakfast", meals => meals.DoubleCalories());
 
-        //Where operators
+        /*Where operators
         var mealNames = profile1.Planner.GetMealNamesWithCaloriesGreaterThan(500);
         foreach (var mealName in mealNames)
         {
             Console.WriteLine(mealName);
-        }
+        }*/
+
+        
 
         //  meals 
         Console.WriteLine($"Meals for user {profile1.Username} :");
@@ -86,8 +93,14 @@ class Program
         List<UserProfile> users = new List<UserProfile>();
         List<Exercise> exercises = new List<Exercise>();
         users.Add(profile1);
-        exercises.Add(new CardioExercise(1, "Morning Run", 30, ExerciseType.Cardio, profile1));
-        exercises.Add(new CardioExercise(2, "Weightlifting Session", 45, ExerciseType.Yoga, profile1));
+        users.Add(profile2);
+        users.Add(profile3);
+        exercises.Add(new CardioExercise(0, "Morning Run", 30, ExerciseType.Cardio, profile1));
+        exercises.Add(new YogaExercise(1, "Weightlifting Session", 45, ExerciseType.Yoga, profile2));
+        exercises.Add(new CardioExercise(2, "Running", 30, ExerciseType.Cardio, profile3));
+        exercises.Add(new CardioExercise(3, "Running", 30, ExerciseType.Cardio, profile2));
+
+
 
 
         planner.JoinUsersAndExercises(users, exercises);
@@ -97,10 +110,16 @@ class Program
 
         List<Exercise> exercisesList = new List<Exercise>();
         Exercise exercise1 = new CardioExercise(0, "Running", 30, ExerciseType.Cardio, profile1);
-        Exercise exercise2 = new YogaExercise(1, "Weightlifting", 45, ExerciseType.Yoga, profile1);
-       
+        Exercise exercise2 = new YogaExercise(1, "Weightlifting", 145, ExerciseType.Yoga, profile1);
+        Exercise exercise3 = new YogaExercise(1, "yoga exercise ", 105, ExerciseType.Yoga, profile2);
+        Exercise exercise4 = new YogaExercise(1, "now yoga exercise", 15, ExerciseType.Yoga, profile3);
+
+
         exercisesList.Add(exercise1);
         exercisesList.Add(exercise2);
+        exercisesList.Add(exercise3);
+        exercisesList.Add(exercise4);
+        
        
 
         IEnumerable<Exercise> exerciseEnumerable = planner.GetExercisesEnumerable(exercisesList);
@@ -128,6 +147,8 @@ class Program
 
         int indexToGet = 1; 
         Exercise exerciseAtIndex = planner.GetExerciseAtIndex(exercisesList, indexToGet);
+       
+        
         Exercise lastExercises = planner.GetLastExercise(exercisesList);
 
         if (exerciseAtIndex != null)
@@ -148,7 +169,31 @@ class Program
             Console.WriteLine($"Repeated Exercise: {repeatedExercise.Name}, Duration: {repeatedExercise.DurationInMinutes} minutes");
         }
 
+
+        // select obiect anonim
+        IEnumerable<object> exerciseInfoList = planner.GetExerciseInfo(exercises);
+
+        
+        foreach (dynamic exerciseInfo in exerciseInfoList)
+        {
+            Console.WriteLine($"Exercise name: {exerciseInfo.Name}, Duration: {exerciseInfo.DurationInMinutes} minutes");
+        }
+
+        //email Message
+
+        EmailSender emailSender = new EmailSender();
+
+        string subject = "Lifestyle";
+        int index = 0;
+        Exercise afis = planner.GetExerciseAtIndex(exercisesList, index);
+        string body = $"Exercise Name: {afis.Name}\nDuration: {afis.DurationInMinutes} minutes";
+
+
+        emailSender.SendEmailToUser(users, subject, body);
+
+
     }
+
 }
 
 
