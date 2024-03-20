@@ -9,6 +9,7 @@ namespace Lifestyle.Class
 {
     public class UserProfile : UserBase
     {
+        public int UserId { get; set; }
         public Planner Planner { get; set; }
 
         public UserProfile(string username, string password, string email, double height, double weight)

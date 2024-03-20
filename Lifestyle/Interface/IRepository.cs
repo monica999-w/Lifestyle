@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lifestyle.Interface
 {
-    public interface IExerciseRepository<T> 
+    public interface IRepository<T> 
     {
         void Add(T entity);
         void Remove(T entity);

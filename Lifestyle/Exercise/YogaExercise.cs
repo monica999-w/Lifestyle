@@ -10,9 +10,10 @@ namespace Lifestyle.Exercise
 {
     public class YogaExercise : Exercise
     {
-        public YogaExercise(string name, int durationInMinutes) : base(name, durationInMinutes, ExerciseType.Yoga)
+        public YogaExercise(int id, string name, int durationInMinutes, ExerciseType type, UserBase userId) : base(id, name, durationInMinutes, type, userId)
         {
         }
+
         public override void DoExercise()
         {
             Console.WriteLine($"Performing Yoga Exercise {Name} for {DurationInMinutes} minutes");

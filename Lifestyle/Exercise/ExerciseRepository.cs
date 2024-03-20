@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lifestyle.Exercise
 {
-    public class ExerciseRepository : IExerciseRepository<Exercise>
+    public class ExerciseRepository : IRepository<Exercise>
     {
        
             private List<Exercise> exercises;
