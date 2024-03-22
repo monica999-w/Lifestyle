@@ -3,6 +3,7 @@ using Lifestyle.Class;
 using Lifestyle.Enumeration;
 using Lifestyle.Enums;
 using Lifestyle.Exercise;
+using Lifestyle.FileSystem;
 using Lifestyle.Interface;
 using Lifestyle.Meal;
 using Lifestyle.Models;
@@ -189,11 +190,17 @@ class Program
         string body = $"Exercise Name: {afis.Name}\nDuration: {afis.DurationInMinutes} minutes";
 
 
-        emailSender.SendEmailToUser(users, subject, body);
+        // emailSender.SendEmailToUser(users, subject, body);
+
+        //logger 
+         Logger logger = new Logger();
+         logger.LogAsync("SomeMethod", true);
+         logger.LogAsync("AnotherMethod", false);
+        // logger.ReadLogAsync();
 
 
     }
-
+    
 }
 
 
